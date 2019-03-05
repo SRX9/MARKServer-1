@@ -5,14 +5,11 @@ var app = express();
 app.use(cors());
 app.use(bodyparser.json());
 const port=process.env.PORT||3000;
-
-
 var q=[];
 var q1='';
 var q2='';
-var user1="a";
-var user2="b";
-var allset=true;
+var user1="Raj";
+var user2="Rinku";
 app.post('/sendmsg', (req, res) => {
     if(req.body.user===user1)
     {
@@ -32,35 +29,17 @@ app.post('/sendmsg', (req, res) => {
         //console.log("Sorry problem sending message "+e)
         q.push("Time=>" + String(new Date()) +" ====>Sorry problem sending message from post");
     });
-
-
-var u1set=true;
-var u2set=true;
-var user1,user2;
+app.get('/checkforuser',(req,res)=>{
+    if(user1===req.query.user || user2===req.query.user)
+    {
+        res.send({ispresent:true});
+    }
+    else{
+        res.send({ispresent:false});
+    }
+});
 app.get('/getmsg', (req, res) => {
 
-        if(allset  && req.query.user!==undefined)
-        {
-            if (user1 === "a" && u1set)
-            {
-                user1=req.query.user;
-                u1set=false;
-                //console.log("user1 detected :"+user1);
-                q.push("Time=>" + String(new Date()) + " ====>User Named:" + user1 + " Detected");
-            }
-            if (user2 === "b" && u2set && req.query.user!==user1) {
-                user2 = req.query.user;
-                u2set=false;
-                //console.log("user2 detected :" + user2);
-                q.push("Time=>" + String(new Date()) + " ====>User Named:"+user2+" Detected");
-            }
-            if(user1!=="a" && user2!=="b")
-            {
-                //console.log("chat engine on. Stream Started between "+user1+" and "+user2);
-                q.push("Time=>" + String(new Date()) + " ====>chat engine on.Stream Started between "+user1+" and "+user2);
-                allset=false;
-            }
-        }
         if(req.query.user===user1)
         {
             if(q2==='')
@@ -101,6 +80,6 @@ app.get('/serverinfo',(req,res)=>{
 });
 
 app.listen(port,()=>{
-    q.push("Time=>" + String(new Date()) +"===>Server Accessed")
+    q.push("Time=>" + String(new Date()) +"===>Server is Live Since then...")
     console.log("Server is Live ...");
 })
