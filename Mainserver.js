@@ -74,7 +74,7 @@ app.get('/getmsg', (req, res) => {
 
 app.get('/serverinfo',(req,res)=>{
     res.send(q);
-
+    q=[];
 },(e)=>{
     console.log("Problem Connecting"+e);
 });
